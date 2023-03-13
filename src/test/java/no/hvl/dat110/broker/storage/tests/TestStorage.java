@@ -8,10 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import no.hvl.dat110.broker.ClientSession;
 import no.hvl.dat110.broker.Storage;
-import no.hvl.dat110.messages.ConnectMsg;
-import no.hvl.dat110.messages.MessageUtils;
 
 public class TestStorage {
 

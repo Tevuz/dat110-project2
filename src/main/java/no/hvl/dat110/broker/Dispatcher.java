@@ -92,6 +92,17 @@ public class Dispatcher extends Stopable {
 		Logger.log("onConnect:" + msg.toString());
 
 		storage.addClientSession(user, connection);
+		var session = storage.getSession(user);
+
+		var topics = storage.getTopics();
+
+		for (var topic : topics){
+			var messages = storage.getMessagesFor(topic, user);
+
+			for (var message : messages){
+				session.send(message);
+			}
+		}
 
 	}
 
@@ -142,6 +153,8 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onPublish:" + msg.toString());
 
+		storage.addMessage(msg.getTopic(), msg);
+
 		var subscribers = storage.getSubscribers(msg.getTopic());
 
 		for (var subscriber : subscribers){
@@ -151,6 +164,9 @@ public class Dispatcher extends Stopable {
 				continue;
 
 			session.send(msg);
+
+			// update messages received for subscriber to last message
+			storage.addSubscriber(subscriber, msg.getTopic());
 		}
 
 	}
